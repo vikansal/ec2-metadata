@@ -74,12 +74,12 @@ version 1, as per
 Environment
 ===========
 
-An optional environment variable ``AWS_EC2_METADATA_INSTANCE_ENDPOINT`` can be used to direct the endpoint calls to the specified URL. This can be used to provide same behavior as other AWS sdks for version 2 (See `here <https://github.com/aws/aws-sdk-java-v2/blob/caab8b95bc7f5a9bbd9b3d5ee979bb082873f42d/docs/LaunchChangelog.md>`).
-In the following example, it is assumed that ``alias.imds.mydomain`` points to ``169.254.169.254`` (but depending on user's env it could be somewhere else too).
+An optional environment variable ``AWS_EC2_METADATA_INSTANCE_ENDPOINT`` can be used to direct the endpoint calls to the specified URL. This can be used to provide same behavior as other AWS sdks for version 2 (See `here <https://github.com/aws/aws-sdk-java-v2/blob/caab8b95bc7f5a9bbd9b3d5ee979bb082873f42d/docs/LaunchChangelog.md>`_).
+In the following example, it is assumed that ``alias.imds.somedomain`` points to ``169.254.169.254`` (but depending on user's env it could be somewhere else too).
 
 .. code-block:: sh
 
-    export AWS_EC2_METADATA_INSTANCE_ENDPOINT=http://alias.imds.mydomain
+    export AWS_EC2_METADATA_INSTANCE_ENDPOINT=http://alias.imds.somedomain
     ## run python executable with this library.
 
 
@@ -147,6 +147,11 @@ The index of the instance in the launch request, zero-based, e.g. ``0``.
 
 The path to the AMI manifest file in Amazon S3, or ``'(unknown)'`` on
 EBS-backed AMI's.
+
+``endpoint: str``
+~~~~~~~~~~~~~~~~~
+
+The metadata provider endpoint base url.
 
 ``clear_all() -> None``
 ~~~~~~~~~~~~~~~~~~~~~~~
