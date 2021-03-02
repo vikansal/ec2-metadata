@@ -1,5 +1,6 @@
 import time
 
+import os
 import requests
 from cached_property import cached_property
 
@@ -8,8 +9,11 @@ __all__ = ("ec2_metadata",)
 
 # Previously we used a fixed version of the service, rather than 'latest', in
 # case any backward incompatible changes were made. It seems metadata service
-# v2 only operates with 'latest' at time of writing (2020-02-12).
-SERVICE_URL = "http://169.254.169.254/latest/"
+# v2 only operates with 'latest' at time of writing (2020-02-12). The v2 also
+# supports customizing the endpoint via use of a env variable like so:
+#    AWS_EC2_METADATA_INSTANCE_ENDPOINT=http://alias.imds.somedomain
+
+SERVICE_URL = os.getenv("AWS_EC2_METADATA_INSTANCE_ENDPOINT","http://169.254.169.254").strip("/") + "/latest/"
 DYNAMIC_URL = SERVICE_URL + "dynamic/"
 METADATA_URL = SERVICE_URL + "meta-data/"
 USERDATA_URL = SERVICE_URL + "user-data/"
@@ -79,6 +83,10 @@ class EC2Metadata(BaseLazyObject):
     @cached_property
     def ami_manifest_path(self):
         return self._get_url(METADATA_URL + "ami-manifest-path").text
+
+    @property
+    def endpoint(self):
+        return SERVICE_URL
 
     @cached_property
     def iam_info(self):
